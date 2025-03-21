@@ -19,6 +19,8 @@ app.post('/signin',(req,res)=>{
 app.post('/signup',(req,res)=>{
     console.log("new data received");
     const {name,mail,pass}=req.body ;
+    const ext=mail.substr(mail.length-8);
+    console.log(`extension ${ext}`);
     console.log(`${name} logged in `);
     res.send({status:true});
 })
