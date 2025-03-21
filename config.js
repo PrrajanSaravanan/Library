@@ -72,17 +72,17 @@ const userSchema=new mongoose.Schema({
     default:0
   },
   email:{
-    type:string,
+    type:String,
     required:true,
     lowercase:true,
     trim: true
   },
   admin:{
-    type:boolean,
+    type:Boolean,
     default:false
   }
 });
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = Book;
+module.exports = {Book,User};

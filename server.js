@@ -23,6 +23,27 @@ app.post('/signup',(req,res)=>{
     res.send({status:true});
 })
 
+app.post('/users',async (req,res)=>{
+    try{
+        const {userId,userName,email}=req.body;
+
+        if(!userId || !userName || !email){
+            return res.status(400).send("Missing UserName,UserId,Email");
+        }
+        const customUser={
+           ... req.body,
+           admin:email.slice(-8)=="@lib.com"?true:false,
+        };
+
+        const newUser=new User(customUser);
+        await newUser.save();
+        res.status(201).send(newUser);
+    }
+    catch(error){
+        res.status(400).send(error.message);
+    }
+})
+
 app.listen(port,(req,res)=>{
     console.log(`server is running at http://localhost:${port}`);
 })
