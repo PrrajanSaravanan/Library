@@ -1,4 +1,8 @@
 const mongoose = require("mongoose");
+const express = require("express");
+const app = express();
+app.use(express.json());
+
 
 const connect = mongoose.connect("mongodb://localhost:27017/library");
 
@@ -50,11 +54,11 @@ const BookSchema = new mongoose.Schema({
 const Book = mongoose.model("Book", BookSchema);
 
 const userSchema=new mongoose.Schema({
-  userId:{
+ /* userId:{
     type:Number,
     required:true,
     unique:true
-  },
+  },*/
   userName:{
     type:String,
     required:true,
@@ -63,30 +67,31 @@ const userSchema=new mongoose.Schema({
     type:String,
     required:true
   },
-  fine:{
-    type:Number,
-    default:0
-  },
-  member:{
-    type:Boolean,
-    default:false,
-  },
-  noOfBooksBorrowed:{
-    type:Number,
-    default:0
-  },
+  // fine:{
+  //   type:Number,
+  //   default:0
+  // },
+  // member:{
+  //   type:Boolean,
+  //   default:false,
+  // },
+  // noOfBooksBorrowed:{
+  //   type:Number,
+  //   default:0
+  // },
   email:{
     type:String,
     required:true,
     lowercase:true,
     trim: true
-  },
-  admin:{
-    type:Boolean,
-    default:false
   }
+  // },
+  // admin:{
+  //   type:Boolean,
+  //   default:false
+  // }
 });
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = {Book,User};
+module.exports = User;
