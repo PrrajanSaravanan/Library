@@ -22,9 +22,13 @@ document.getElementById('signup').addEventListener('submit',function(event) {
        })
        .then(response => response.json())
        .then(result =>{
-            if(result){
+            if(result.status==='s'){
                console.log('navigating');
                window.location.href=`/index.html/?name:${name}`; 
+            }
+            else if(result.status ==='em'){
+                alert('An account exits at this mail');
+                window.location.reload();
             }
        })
        .catch(error =>{

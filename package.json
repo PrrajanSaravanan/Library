@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/PrrajanSaravanan/Library#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.21.2",
-    "mongoose": "^8.12.1"
+    "mongoose": "^8.12.2"
   }
 }

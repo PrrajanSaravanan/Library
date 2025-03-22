@@ -15,7 +15,15 @@ document.getElementById('signin').addEventListener('submit', function(event) {
     })
     .then(response => response.json())
     .then(result => {
-        if(result){
+        if (result.status==='unf'){
+            alert('invalid username');
+            window.location.reload();
+        }
+        else if  (result.status === 'wp'){
+            alert('Wrong Password');
+            window.location.reload();
+        }
+        else if(result.status=='s'){
             console.log('navigating');
             window.location.href=`/index.html/?name:${name}`;
          }

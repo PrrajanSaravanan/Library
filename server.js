@@ -1,7 +1,9 @@
 const express=require('express');
 const path=require('path');
 const body_parse=require('body-parser');
-const cors=require("cors")
+const cors=require("cors");
+const bcrypt = require('bcrypt');
+const collection = require("./config");
 
 const app=express();
 const port =3000;
@@ -9,18 +11,33 @@ const port =3000;
 app.use(express.json());
 app.use(cors());
 
-app.post('/signin',(req,res)=>{
+app.post('/signin',async(req,res)=>{
     console.log("data recieved");
-    const {name,pass}=req.body;
-    console.log(`${name} has been signed in`);
-    res.send({status:true});
+    const data={name : req.body.name ,pass : req.body.pass};
+    const user=await collection.findOne({userName : data.name});
+    if(!user){
+        console.log("User not found");
+        res.send({status:'unf'});
+    }
+    const pcheck = await bcrypt.compare(data.pass,user.pass);
+    if(!pcheck){
+        console.log("invalid password");
+        res.send({status:'wp'});
+    }
+    console.log(`${data.name} has been signed in`);
+    res.send({status:'s'});
 });
 
-app.post('/signup',(req,res)=>{
+app.post('/signup',async(req,res)=>{
     console.log("new data received");
-    const {name,mail,pass}=req.body ;
-    console.log(`${name} logged in `);
-    res.send({status:true});
+    const data={name : req.body.name,pass : req.body.pass,mail:req.body.mail};
+    const check=await collection.findOne({email: data.mail});
+    if(check){
+        console.log("existing mail");
+        res.send({status:'em'});
+    }
+    console.log(`${data.name} logged in `);
+    res.send({status:'s'});
 })
 
 app.post('/users',async (req,res)=>{
