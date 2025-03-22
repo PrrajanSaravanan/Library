@@ -13,7 +13,7 @@ app.use(cors());
 
 app.post('/signin',async(req,res)=>{
     console.log("data recieved");
-    const data={name : req.body.name ,pass : req.body.pass};
+    const data={username : req.body.name ,password : req.body.pass};
     const user=await collection.findOne({userName : data.name});
     if(!user){
         console.log("User not found");
@@ -24,14 +24,15 @@ app.post('/signin',async(req,res)=>{
         console.log("invalid password");
         res.send({status:'wp'});
     }
-    console.log(`${data.name} has been signed in`);
+    console.log(`${data.userName} has been signed in`);
     res.send({status:'s'});
 });
 
 app.post('/signup',async(req,res)=>{
     console.log("new data received");
-    const data={name : req.body.name,pass : req.body.pass,mail:req.body.mail};
-    const check=await collection.findOne({email: data.mail});
+    const data={userName : req.body.name,password : req.body.pass,email:req.body.mail};
+    console.log(data);
+    const check=await collection.findOne({email: data.email});
     if(check){
         console.log("existing mail");
         res.send({status:'em'});
@@ -39,7 +40,7 @@ app.post('/signup',async(req,res)=>{
     // collection.insertOne(data);
     const newUser = new collection(data);
     await newUser.save();
-    console.log(`${data.name} logged in `);
+    console.log(`${data.userName} logged in `);
     res.send({status:'s'});
 })
 
