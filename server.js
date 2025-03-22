@@ -30,10 +30,8 @@ app.post('/signin',async(req,res)=>{
 
 app.post('/signup',async(req,res)=>{
     console.log("new data received");
-    const data={userName : req.body.name,password: req.body.pass,email:req.body.mail};
-    console.log(data);
-    const check=await collection.findOne({email: data.email});
-    console.log(check);
+    const data={name : req.body.name,pass : req.body.pass,mail:req.body.mail};
+    const check=await collection.findOne({email: data.mail});
     if(check){
         console.log("existing mail");
         res.send({status:'em'});

@@ -6,8 +6,8 @@ document.getElementById('signup').addEventListener('submit',function(event) {
     const mail=document.getElementById('s-mail').value;
     const pass=document.getElementById('s-pass').value;
     const cpass=document.getElementById('s-cpass').value;
-    const data ={name , mail , password:pass}
-    console.log(`Data : ${name}`);
+    const data ={name , mail ,pass}
+    console.log(`Data : ${data.pass}`);
     if(pass !== cpass){
         alert("password doesn't match");
         window.location.reload();
