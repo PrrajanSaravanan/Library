@@ -4,7 +4,7 @@ document.getElementById('signin').addEventListener('submit', function(event) {
     
     const name = document.getElementById('name').value;
     const pass = document.getElementById('password').value;
-    const data = { name, password: pass };
+    const data = { name,  pass };
 
     fetch("http://localhost:3000/signin", {
         method: 'POST',

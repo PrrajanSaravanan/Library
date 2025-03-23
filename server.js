@@ -14,56 +14,67 @@ app.use(cors());
 app.post('/signin',async(req,res)=>{
     console.log("data recieved");
     const data={username : req.body.name ,password : req.body.pass};
-    const user=await collection.findOne({userName : data.name});
+    console.log(data);
+    const user=await collection.findOne({userName : data.username});
+    console.log(user);
     if(!user){
         console.log("User not found");
-        res.send({status:'unf'});
+        return res.send({status:'unf'});
     }
-    const pcheck = await bcrypt.compare(data.pass,user.pass);
-    if(!pcheck){
+    // const pcheck = localeCompare(data.pass,user.pass);
+    // console.log(pcheck);
+    if(data.password!=user.password){
         console.log("invalid password");
-        res.send({status:'wp'});
+        return res.send({status:'wp'});
     }
-    console.log(`${data.userName} has been signed in`);
-    res.send({status:'s'});
+    console.log(`${data.username} has been signed in`);
+    return res.send({status:'s'});
 });
 
 app.post('/signup',async(req,res)=>{
     console.log("new data received");
-    const data={userName : req.body.name,password : req.body.pass,email:req.body.mail};
+    const data={userName : req.body.name,password : req.body.pass,email:req.body.mail,userId:-1};
     console.log(data);
     const check=await collection.findOne({email: data.email});
     if(check){
-        console.log("existing mail");
-        res.send({status:'em'});
+        console.log(`existing mail in mail ${data.email}`);
+       return  res.send({status:'em'});
     }
-    // collection.insertOne(data);
+    const len=await collection.countDocuments();
+    data.userId=10000+len;
     const newUser = new collection(data);
     await newUser.save();
+    const ext=data.email.slice(-8);
     console.log(`${data.userName} logged in `);
-    res.send({status:'s'});
+    if(ext==="@lib.com"){
+        await collection.updateOne(
+            { email: data.email },  
+            { $set: { admin: true } } );
+        console.log("user has admin privilages");
+    }
+    return  res.send({status:'s'});
 })
 
-app.post('/users',async (req,res)=>{
-    try{
-        const {userId,userName,email}=req.body;
+// app.post('/users',async (req,res)=>{
+//     try{
+//         const {userId,userName,email}=req.body;
 
-        if(!userId || !userName || !email){
-            return res.status(400).send("Missing UserName,UserId,Email");
-        }
-        const customUser={
-           ... req.body,
-           admin:email.slice(-8)=="@lib.com"?true:false,
-        };
+//         if(!userId || !userName || !email){
+//             return res.status(400).send("Missing UserName,UserId,Email");
+//         }
+//         const customUser={
+//            ... req.body,
+//            admin:email.slice(-8)=="@lib.com"?true:false,
+//         };
 
-        const newUser=new User(customUser);
-        await newUser.save();
-        res.status(201).send(newUser);
-    }
-    catch(error){
-        res.status(400).send(error.message);
-    }
-})
+//         const newUser=new User(customUser);
+//         await newUser.save();
+//         res.status(201).send(newUser);
+//     }
+//     catch(error){
+//         res.status(400).send(error.message);
+//     }
+// })
 
 app.listen(port,(req,res)=>{
     console.log(`server is running at http://localhost:${port}`);
