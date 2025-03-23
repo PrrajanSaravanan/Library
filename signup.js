@@ -24,7 +24,7 @@ document.getElementById('signup').addEventListener('submit',function(event) {
        .then(result =>{
             if(result.status==='s'){
                console.log('navigating');
-               window.location.href=`/index.html/?name:${name}`; 
+               window.location.href=`/index1.html?name=${encodeURIComponent(name)}`;
             }
             else if(result.status ==='em'){
                 alert('An account exits at this mail');
