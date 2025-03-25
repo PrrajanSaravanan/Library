@@ -25,7 +25,7 @@ document.getElementById('signin').addEventListener('submit', function(event) {
         }
         else if(result.status=='s'){
             console.log('navigating');
-            window.location.href=`/index1.html/?name:${name}`;
+            window.location.href=`/index1.html?name=${encodeURIComponent(name)}`;
          }
     })
     .catch(error => {
