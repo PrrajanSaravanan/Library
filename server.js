@@ -2,7 +2,7 @@ const express=require('express');
 const path=require('path');
 const body_parse=require('body-parser');
 const cors=require("cors");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); 
 const collection = require("./config");
 
 const app=express();
