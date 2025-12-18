@@ -11,7 +11,7 @@ connect
     console.log("Connected to MongoDB");
   })
   .catch(() => {
-    console.log("Error connecting to MongoDB");
+    console.log("Error connecting to MongoDB"); 
   });
 
 const BookSchema = new mongoose.Schema({
