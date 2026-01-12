@@ -9,7 +9,7 @@ const connect = mongoose.connect("mongodb://localhost:27017/Library");
 connect
   .then(() => {
     console.log("Connected to MongoDB");
-  })
+  }) 
   .catch(() => {
     console.log("Error connecting to MongoDB"); 
   });
